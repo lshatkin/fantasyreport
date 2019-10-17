@@ -1,9 +1,0 @@
-fantasyApp/__init__.py
-fantasyApp/config.py
-fantasyApp/manager.py
-fantasyApp/model.py
-fantasyApp.egg-info/PKG-INFO
-fantasyApp.egg-info/SOURCES.txt
-fantasyApp.egg-info/dependency_links.txt
-fantasyApp.egg-info/requires.txt
-fantasyApp.egg-info/top_level.txt
