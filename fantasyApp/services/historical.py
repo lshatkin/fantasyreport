@@ -4,7 +4,9 @@ import pandas as pd
 import numpy as np
 
 def getYearlyInfo(league, year):
-    rotRecords = getRotisserie(league)
+    """ Insert necessary info into years SQL DB. """
+    scoresDf = createScoresDf(league)
+    rotRecords = getRotisserie(league, scoresDf)
     for team in league.teams:
         teamId = team.team_id
         wins = team.wins
@@ -14,22 +16,26 @@ def getYearlyInfo(league, year):
         rotWins = rotRecords.loc[teamId, 'wins']
         rotLosses = rotRecords.loc[teamId, 'losses']
         rotTies = rotRecords.loc[teamId, 'ties']
-        command = "insert into years (teamId, year, wins,\
-                    losses, pointsFor, finalStanding, rotWins, rotLosses, rotTies) \
-                    values \
+        command = "insert into years values \
                     (%d, %d, %d, %d, %d, %d, %d, %d, %d)" % (teamId,
                     year, wins, losses, 
                         pointsFor, standing, rotWins, rotLosses, rotTies)
         get_db().execute(command)
 
-def getRotisserie(league):
+def createScoresDf(league):
+    """ Create a dataframe that holds scores for all weeks. """
     regSeasonWeeks = np.arange(1, league.settings.reg_season_count + 1)
     teams = [t.team_id for t in league.teams]
     scoring = pd.DataFrame(index = teams, columns = regSeasonWeeks)
     for t in league.teams:
         scoring.loc[t.team_id] = t.scores[0:league.settings.reg_season_count]
-    rot = pd.DataFrame(0, index = teams, columns = ['wins', 'losses', 'ties'])
-    for (week, scores) in scoring.iteritems():
+    return scoring
+
+
+def getRotisserie(league, scoresDf):
+    """ Calculate rotisserie records for a given season. """
+    rot = pd.DataFrame(0, index = scoresDf.index, columns = ['wins', 'losses', 'ties'])
+    for (week, scores) in scoresDf.iteritems():
         for (teamId1, s1) in scores.items():
             for (teamId2, s2) in scores.items():
                 if teamId1 == teamId2:
