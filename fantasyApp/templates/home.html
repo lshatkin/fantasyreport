@@ -37,6 +37,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
 
+  <h1 class="w3-center"><i class="fa fa-trophy" aria-hidden="true"></i> Reigning Champion: {{current_champion}} <i class="fa fa-trophy" aria-hidden="true"></i></h1>
+
 <div class="w3-col m7">
   <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
     <h4>Weekly Info</h4><br>
@@ -44,7 +46,15 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <table class="w3-table">
     <tr>
       <td><b> Top Scorer of Week {{week}}</b></td>
-      <td><i>{{weekly_info['top_scorer']}} with {{weekly_info['max_score']}} points</i></td>
+      <td><i>{{weekly_info['top_scorer']}} with {{weekly_info['top_score']}} points</i></td>
+    </tr>
+    <tr>
+      <td><b> Top Scorer Through Week {{week}} </b></td>
+      <td><i>{{weekly_info['max_score_team']}} with {{weekly_info['max_score']}} points</i></td>
+    </tr>
+    <tr>
+      <td><b> Lowest Scorer Through Week {{week}} </b></td>
+      <td><i>{{weekly_info['min_score_team']}} with {{weekly_info['min_score']}} points</i></td>
     </tr>
     <tr>
       <td><b> Average Score for Week {{week}}</b></td>
@@ -53,5 +63,21 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     </table>
   </div>
 <div/>
+
+<div class="w3-col m7">
+  <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+    <h4>Standings</h4><br>
+    <hr class="w3-clear">
+    <table class="w3-table">
+      {% for name, stand in standings.items() %}
+      <tr>
+        <td><b>{{name}}</b></td>
+        <td><i>{{stand}}</i></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+<div/>
+
 <div/>
 </html>
