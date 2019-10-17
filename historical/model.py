@@ -1,16 +1,11 @@
 """Insta485 model (database) API."""
 import sqlite3
+import tempfile
+import shutil
+import os
+import hashlib
 import flask
-from fantasyApp import app
-
-def checkOwnership(owner):
-    if owner == 'Sam Spiwak' or owner == 'Ethan S':
-        return 'Spiwak and Schnoll'
-    if owner == 'Jack Kremin' or owner == 'Eli O':
-        return 'Eli and Krem'
-    if owner == 'Jim O\'Donnell':
-        return 'Sam O\'Donnell'
-    return owner
+import insta485
 
 
 def dict_factory(cursor, row):
@@ -33,7 +28,7 @@ def get_db():
     """Open a new database connection."""
     if not hasattr(flask.g, 'sqlite_db'):
         flask.g.sqlite_db = sqlite3.connect(
-            app.config['DATABASE_FILENAME'])
+            insta485.app.config['DATABASE_FILENAME'])
         flask.g.sqlite_db.row_factory = dict_factory
 
         # Foreign keys have to be enabled per-connection.  This is an sqlite3
@@ -43,7 +38,7 @@ def get_db():
     return flask.g.sqlite_db
 
 
-@app.teardown_appcontext
+@insta485.app.teardown_appcontext
 def close_db(error):
     """Close the database at the end of a request."""
     # Assertion needed to avoid style error
@@ -51,3 +46,4 @@ def close_db(error):
     if hasattr(flask.g, 'sqlite_db'):
         flask.g.sqlite_db.commit()
         flask.g.sqlite_db.close()
+
