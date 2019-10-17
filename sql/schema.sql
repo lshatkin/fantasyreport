@@ -28,8 +28,8 @@ CREATE TABLE thisWeekSummary(
     PRIMARY KEY (week, year)
 );
 
--- CREATE TABLE thisWeekScores(
---     teamId INT,
---     weekId INT,
---     score INT
--- );
+CREATE TABLE thisWeekScores(
+    teamId INT,
+    score REAL,
+    PRIMARY KEY (teamId)
+);

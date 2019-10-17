@@ -58,6 +58,8 @@ case $1 in
     sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM years'
     echo ""
     sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM thisWeekSummary'
+    echo ""
+    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM thisWeekScores'
     ;;
   *)
     usage

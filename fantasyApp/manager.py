@@ -12,13 +12,15 @@ currentLeague = initialize_league(2019)
 def fillHistoricalDBs():
     for year in range(2014, 2020):
         print(year)
-        l = initialize_league(year)
-        getYearlyInfo(l, year)
-    getTeams(currentLeague)
+    #     l = initialize_league(year)
+    #     getYearlyInfo(l, year)
+    # getTeams(currentLeague)
 
 @manager.command
 def fillCurrentDBs():
-    currentWeek.getWeeklyInfo(currentLeague, 2019, 5)
+    """ Get information from current week. """
+    week = currentLeague.current_week - 1
+    currentWeek.getWeeklyInfo(currentLeague, 2019, week)
 
 
 if __name__ == "__main__":
