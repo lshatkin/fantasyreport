@@ -1,3 +1,4 @@
 env/
 fantasApp.egg-info/
 __pycache__/
+var/
