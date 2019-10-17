@@ -1,4 +1,4 @@
 env/
-fantasApp.egg-info/
+fantasyApp.egg-info/
 __pycache__/
-var/
+var
