@@ -24,7 +24,12 @@ def get_information():
 
     query_weekly = "select * from thisWeekSummary"
     weekly = query_db(query_weekly,one=True)
-    query_team = "select * from teams where teamId = '%s'" % weekly['topScorerId']
+
+    print('###########', file=sys.stderr)
+    print(weekly, file=sys.stderr)
+    print('###########', file=sys.stderr)
+
+    query_team = "select * from teams where teamId = %d" % weekly['topScorerId']
     context['weekly_info']['top_scorer'] = query_db(query_team, one=True)['teamName']
     context['weekly_info']["max_score"] = weekly['maxScore']
     context['weekly_info']['avg_score'] = weekly['averageScore']

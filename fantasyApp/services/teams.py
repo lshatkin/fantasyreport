@@ -2,6 +2,7 @@
 from fantasyApp.model import get_db, checkOwnership
 
 def getTeams(league):
+    """ Fill Teams DB. """
     for t in league.teams:
         teamId = t.team_id
         owner = checkOwnership(t.owner).replace("'","''")
