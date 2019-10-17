@@ -9,13 +9,13 @@ from fantasyApp import app
 manager = Manager(app)
 currentLeague = initialize_league(2019)
 
-# @manager.command
-# def fillHistoricalDBs():
-#     for year in range(2014, 2020):
-#         print(year)
-#         l = initialize_league(year)
-#         getYearlyInfo(l, year)
-#     getTeams(currentLeague)
+@manager.command
+def fillHistoricalDBs():
+    for year in range(2014, 2020):
+        print(year)
+        l = initialize_league(year)
+        getYearlyInfo(l, year)
+    getTeams(currentLeague)
 
 @manager.command
 def fillCurrentDBs():
