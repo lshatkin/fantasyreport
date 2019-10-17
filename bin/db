@@ -27,8 +27,8 @@ case $1 in
     echo "+ mkdir var/"
     sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql
     echo "+ sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql"
-    python fantasyApp/manager.py historical
-    echo "+ python fantasyApp/manager.py historical"
+    python fantasyApp/manager.py fillDBs
+    echo "+ python fantasyApp/manager.py fillDBs"
   fi
     ;;
 
@@ -44,13 +44,13 @@ case $1 in
     echo "+ mkdir var/"
     sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql
     echo "+ sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql"
-    python fantasyApp/manager.py historical
-    echo "+ python fantasyApp/manager.py historical"
+    python fantasyApp/manager.py fillDBs
+    echo "+ python fantasyApp/manager.py fillDBs"
     ;;
 
   "dump")
     sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM teams'
-    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM history'
+    # sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM history'
     ;;
   *)
     usage
