@@ -17,12 +17,6 @@ def createScoresWeek(league, week):
     return scoring.loc[:, week]
 
 
-def getWeeklyInfo(league, year, week):
-    """ Get general weekly for display on homepage. """
-    scoresDf = createScoresWeek(league, week)
-    # weeklyAwards(scoresDf, year, week)
-    fillThisWeekScores(scoresDf)
-
 def weeklyAwards(scoresDf, year, week):
     """ Calculate weekly awards for homepage. """
     maxScore = scoresDf.max()
@@ -36,6 +30,7 @@ def weeklyAwards(scoresDf, year, week):
                 minScoreTeam, median, maxScore)
     get_db().execute(command)
 
+
 def fillThisWeekScores(scoresDf):
     """ Fill in weekly scores DB. """
     for i in scoresDf.index:
@@ -43,3 +38,10 @@ def fillThisWeekScores(scoresDf):
         command = "insert into thisWeekScores values \
                     (%d, %d)" % (i, score)
         get_db().execute(command)
+
+
+def getWeeklyInfo(league, year, week):
+    """ Get general weekly for display on homepage. """
+    scoresDf = createScoresWeek(league, week)
+    weeklyAwards(scoresDf, year, week)
+    fillThisWeekScores(scoresDf)

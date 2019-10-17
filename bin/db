@@ -7,7 +7,7 @@ set -Eeuo pipefail
 
 # Sanity check command line options
 usage() {
-  echo "Usage: $0 (create|destroy|reset|dump)"
+  echo "Usage: $0 (create|destroy|resetHard|dump|resetSoft)"
 }
 
 if [ $# -ne 1 ]; then
@@ -39,7 +39,7 @@ case $1 in
     echo "+ rm var/"
     ;;
 
-  "reset")
+  "resetHard")
     rm -r var/
     echo "+ rm var/"
     mkdir var/
@@ -52,6 +52,17 @@ case $1 in
     echo "+ python fantasyApp/manager.py fillCurrentDBs"
     ;;
 
+  "resetSoft")
+    rm -r var/
+    echo "+ rm var/"
+    mkdir var/
+    echo "+ mkdir var/"
+    sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql
+    echo "+ sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql"
+    python fantasyApp/manager.py fillCurrentDBs
+    echo "+ python fantasyApp/manager.py fillCurrentDBs"
+    ;;
+
   "dump")
     sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM teams'
     echo ""
@@ -60,6 +71,8 @@ case $1 in
     sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM thisWeekSummary'
     echo ""
     sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM thisWeekScores'
+    echo ""
+    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM players'
     ;;
   *)
     usage

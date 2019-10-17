@@ -10,7 +10,7 @@ CREATE TABLE years(
     year INT,
     wins INT,
     losses INT,
-    pointsFor INT,
+    pointsFor REAL,
     finalStanding INT,
     rotWins INT,
     rotLosses INT,
@@ -32,4 +32,14 @@ CREATE TABLE thisWeekScores(
     teamId INT,
     score REAL,
     PRIMARY KEY (teamId)
+);
+
+CREATE TABLE players(
+    name VARCHAR(40),
+    points REAL,
+    projection REAL,
+    position VARCHAR(10),
+    slot VARCHAR(10),
+    team INT,
+    PRIMARY KEY(name)
 );
