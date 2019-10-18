@@ -10,26 +10,32 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
+<td style ="word-break:break-all;">
 </style>
 <body bgcolor = "#C8C8C7" >
 
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-black w3-left-align w3-large">
-    <a href="#" class="w3-bar-item w3-button w3-padding-large w3-theme-dark"><i class="fa fa-home w3-margin-right"></i>League Home</a>
+    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-dark"><i class="fa fa-home w3-margin-right"></i>League Home</a>
     
     <div class="w3-dropdown-hover w3-hide-small">
       <button class="w3-button w3-padding-large" title="Notifications">Teams</button>
       <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-        {% for name in standings.keys() %}
-          <a href="#" class="w3-bar-item w3-button">{{name}}</a>
+        {% for team in teams %}
+          <a href="/u/{{team['teamId']}}/" class="w3-bar-item w3-button">{{team['teamName']}}</a>
         {% endfor %}
       </div>
     </div>
-
-
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Years"><i class="fa fa-user"></i></a>
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
+    <div class="w3-dropdown-hover w3-hide-small">
+      <button class="w3-button w3-padding-large" title="Notifications">Years</button>
+      <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+        {% for year in years %}
+          <a href="#" class="w3-bar-item w3-button">{{year}}</a>
+        {% endfor %}
+      </div>
+    </div>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Years">Advanced Stats</a>
   </div>
 </div>
 
@@ -42,72 +48,95 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
 
     <!-- Left Column -->
     <div class="w3-col m3">
-      <div class="w3-col" style="width:300px">
-        <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-          <h4>Weekly Info</h4><br>
+      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round "><br>
+        <div class="w3-container w3-theme-l3">
+          <h3>Team of the Week</h3>
           <hr class="w3-clear">
-          <table class="w3-table">
-          <tr>
-            <td><b> Top Scorer of Week {{week}}</b></td>
-            <td><i>{{weekly_info['top_scorer']}} with {{weekly_info['top_score']}} points</i></td>
-          </tr>
-          <tr>
-            <td><b> Top Scorer Through Week {{week}} </b></td>
-            <td><i>{{weekly_info['max_score_team']}}</i></td>
-          </tr>
-          <tr>
-            <td><b> Lowest Scorer Through Week {{week}} </b></td>
-            <td><i>{{weekly_info['min_score_team']}}</i></td>
-          </tr>
-          <tr>
-            <td><b> Average Score for Week {{week}}</b></td>
-            <td><i>{{weekly_info['avg_score']}} points</i></td>
-          </tr>
-          </table>
         </div>
+        <table class="w3-table w3-striped">
+          <tr>
+            <th>Position</th>
+            <th>Player</th>
+            <th>Points</th>
+          </tr>
+          {% for pos in teamOrder %}
+            <tr>
+              <td> {{pos}} </td>
+              <td> {{teamOfWeek[pos][0]}} </td>
+              <td> {{teamOfWeek[pos][1]}} </td>
+            </tr>
+          {% endfor %}
+        </table><br>
       </div>
     </div>
 
     <!-- Middle Column -->
     <div class="w3-col m6">
-        <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-          <h4>Weekly Info</h4><br>
-          <hr class="w3-clear">
-          <table class="w3-table">
-          <tr>
-            <td><b> Top Scorer of Week {{week}}</b></td>
-            <td><i>{{weekly_info['top_scorer']}} with {{weekly_info['top_score']}} points</i></td>
-          </tr>
-          <tr>
-            <td><b> Top Scorer Through Week {{week}} </b></td>
-            <td><i>{{weekly_info['max_score_team']}}</i></td>
-          </tr>
-          <tr>
-            <td><b> Lowest Scorer Through Week {{week}} </b></td>
-            <td><i>{{weekly_info['min_score_team']}}</i></td>
-          </tr>
-          <tr>
-            <td><b> Average Score for Week {{week}}</b></td>
-            <td><i>{{weekly_info['avg_score']}} points</i></td>
-          </tr>
-          </table>
+      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+        <h3>Weekly Info</h3>
+        <hr class="w3-clear">
+        <table class="w3-table">
+        <tr>
+          <td><b> Top Scorer of Week {{week}}</b></td>
+          <td><i>{{weekly_info['top_scorer']}} with {{weekly_info['top_score']}} points</i></td>
+        </tr>
+        <tr>
+          <td><b> Average Score for Week {{week}}</b></td>
+          <td><i>{{weekly_info['avg_score']}} points</i></td>
+        </tr>
+        <tr>
+          <td><b> Top Scorer Through Week {{week}} </b></td>
+          <td><i>{{weekly_info['max_score_team']}}</i></td>
+        </tr>
+        <tr>
+          <td><b> Lowest Scorer Through Week {{week}} </b></td>
+          <td><i>{{weekly_info['min_score_team']}}</i></td>
+        </tr>
+        </table>
+      </div>
+      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+        <h3>Worst Managerial Decision of the Week</h3>
+        <p> This week, <b>{{badManManager}}</b> made the worst managerial decision
+            of the week by starting <b>{{badManStart['name']}}</b>, who had 
+            {{badManStart['points']}} points, over {{badManBench['name']}},
+            who had {{badManBench['points']}} points. That is {{badManDiff}}
+            points left on the board. </p>
       </div>
     <!-- End Middle Column -->
     </div>
 
     <!-- Right Column -->
     <div class="w3-col m3">
-      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-        <h4>Standings</h4><br>
-        <hr class="w3-clear">
-        <table class="w3-table">
-          {% for name, stand in standings.items() %}
+      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round "><br>
+        <div class="w3-container w3-theme-l3">
+          <h3>Standings</h3>
+          <hr class="w3-clear">
+        </div>
+        <table class="w3-table w3-striped">
+          {% for _,row in standings.iterrows() %}
           <tr>
-            <td><b>{{name}}</b></td>
-            <td><i>{{stand}}</i></td>
+            <td><b>{{row['teamName']}}</b></td>
+            <td><i>{{row['wins']}} - {{row['losses']}}</i></td>
           </tr>
           {% endfor %}
         </table>
+        <br>
+      </div>
+      <br>
+      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round "><br>
+        <div class="w3-container w3-theme-l3">
+          <h3>Rotisserie Records</h3>
+          <hr class="w3-clear">
+        </div>
+        <table class="w3-table w3-striped">
+          {% for _,row in roto.iterrows() %}
+          <tr>
+            <td><b>{{row['teamName']}}</b></td>
+            <td><i>{{row['rotWins']}} - {{row['rotLosses']}}</i></td>
+          </tr>
+          {% endfor %}
+        </table>
+        <br>
       </div>
     <!-- End Right Column -->
     </div>
@@ -119,7 +148,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
 <br>
 
 <!-- Footer -->
-<footer class="w3-container w3-theme-dark w3-padding-16">
+<footer class="w3-container w3-black w3-padding-16">
   <h5></h5>
 </footer>
 

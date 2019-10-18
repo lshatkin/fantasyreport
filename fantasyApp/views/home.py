@@ -8,7 +8,8 @@ URLs include:
 import flask
 from flask import request, session, redirect, url_for
 import fantasyApp
-from fantasyApp.model import query_db
+from fantasyApp.model import query_db, id_to_name, getAllYears, getAllTeams
+from fantasyApp.services.players import badManager, teamOfWeek
 import fantasyApp.config
 import sys
 import datetime
@@ -16,10 +17,33 @@ import operator
 import pandas as pd
 
 
-def id_to_name(id):
-    query_team = "select * from teams where teamId = %d" % id
-    name = query_db(query_team, one=True)['teamName']
-    return name
+def get_top_bar_info(context):
+    context['years'] = getAllYears()
+    context['teams'] = getAllTeams()
+
+def getWeeklyExtras(context):
+    query_weekly = "select * from thisWeekSummary"
+    weekly = query_db(query_weekly,one=True)
+    week = weekly['week']
+    context['teamOfWeek'] = teamOfWeek(week)
+    context['teamOrder'] = ['QB1', 'RB1', 'RB2', 'WR1',
+                            'WR2', 'Flex', 'TE1', 
+                            'D/ST1', 'K1']
+    bench, start, pointDiff = badManager(week)
+    context['badManBench'] = bench.to_dict()
+    context['badManStart'] = start.to_dict()
+    context['badManDiff'] = pointDiff
+    context['badManManager'] = id_to_name(bench['team'])
+
+def get_roto_records(context):
+    query_years = "select * from years where year = %d" % context['year']
+    year = query_db(query_years)
+    year = pd.DataFrame.from_dict(year)
+    roto = year.sort_values(by = ['rotWins'], ascending = False)
+    roto = roto.loc[:, ['teamId', 'rotWins', 'rotLosses']]
+    teamNameConversion = lambda x : id_to_name(x)
+    roto['teamName'] = roto['teamId'].apply(teamNameConversion)
+    context['roto'] = roto
 
 
 def get_weekly_info(context):
@@ -54,26 +78,28 @@ def get_reigning_champ(context):
 
 def get_standings(context):
     query_teams = "select * from years where year = %d" % context['year']
-    teams = query_db(query_teams)
-    for team in teams:
-        context['standings'][id_to_name(team['teamId'])] = f"{team['wins']}-{team['losses']}"
-        #context['standings'] = sorted(context['standings'].items(), key=lambda x: x[1], reverse=True)
+    teams = pd.DataFrame.from_dict(query_db(query_teams))
+    standings = teams.sort_values(by = ['wins', 'pointsFor'], ascending = False)
+    standings = standings.loc[:, ['teamId', 'wins', 'losses']]
+    teamNameConversion = lambda x : id_to_name(x)
+    standings['teamName'] = standings['teamId'].apply(teamNameConversion)
+    context['standings'] = standings
 
 
 @fantasyApp.app.route('/', methods=['GET'])
 def show_home():
     """Display / route."""
     context = {"weekly_info": {},
-                "current_champion": "",
                 "standings": {},
                 "rotisserie": {},
                 "avg_margin": {},
-                "week": 0,
-                "year": 0
     }
+    get_top_bar_info(context)
     get_weekly_info(context)
     get_reigning_champ(context)
     get_standings(context)
+    getWeeklyExtras(context)
+    get_roto_records(context)
     return flask.render_template("home.html", **context)
 
     #print('###########', file=sys.stderr)

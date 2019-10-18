@@ -3,8 +3,10 @@ import sqlite3
 import flask
 from fantasyApp import app
 from ff_espn_api import League
+import pandas as pd
 
 def checkOwnership(owner):
+    """ Change owner names - hard coded. """
     if owner == 'Sam Spiwak' or owner == 'Ethan S':
         return 'Spiwak and Schnoll'
     if owner == 'Jack Kremin' or owner == 'Eli O':
@@ -14,7 +16,29 @@ def checkOwnership(owner):
     return owner
 
 
+def id_to_name(id):
+    """ Convert a team id into a team name. """
+    query_team = "select * from teams where teamId = %d" % id
+    name = query_db(query_team, one=True)['teamName']
+    return name
+
+
+def getAllYears():
+    """ Get years for top bar, needed on every page. """
+    query_years = "select year from years"
+    years = query_db(query_years)
+    uniqueYears = pd.DataFrame(years)['year'].unique()
+    return uniqueYears
+
+
+def getAllTeams():
+    query_team = "select teamId, teamName from teams"
+    name = query_db(query_team)
+    return name
+
+
 def initialize_league(year):
+    """ Initialize league, needed in most scripts. """
     API_INFO = {
         'league_id' : 428926,
         'year' : year,
