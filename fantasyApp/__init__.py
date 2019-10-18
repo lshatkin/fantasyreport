@@ -20,4 +20,5 @@ app.config.from_envvar('FANTASYAPP_SETTINGS', silent=True)
 # going to tell pylint and pycodestyle to ignore this coding style violation.
 import fantasyApp.views  # noqa: E402  pylint: disable=wrong-import-position
 import fantasyApp.model  # noqa: E402  pylint: disable=wrong-import-position
+import fantasyApp.services
 import fantasyApp.manager # noqa: E402  pylint: disable=wrong-import-position

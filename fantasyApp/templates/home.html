@@ -48,7 +48,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
   <!-- The Grid -->
   <div class="w3-row">
     <!-- Left Column -->
-    <div class="w3-col m3">
+    <div class="w3-col m4">
       <div class="w3-container w3-card w3-white w3-theme-l3 w3-round w3-margin-top w3-margin-right"><br>
         <div class="w3-container w3-theme-l3">
           <h3>Team of the Week</h3>
@@ -69,10 +69,38 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
           {% endfor %}
         </table><br>
       </div>
+      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round w3-margin-top w3-margin-right"><br>
+        <div class="w3-container w3-theme-l3">
+          <h3>Standings</h3>
+          <hr class="w3-clear">
+        </div>
+        <table class="w3-table w3-striped">
+          {% for _,row in standings.iterrows() %}
+          <tr>
+            <td><b>{{row['teamName']}}</b></td>
+            <td><i>{{row['wins']}} - {{row['losses']}}</i></td>
+          </tr>
+          {% endfor %}
+        </table><br>
+      </div>
+      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round w3-margin-top w3-margin-right"><br>
+        <div class="w3-container w3-theme-l3">
+          <h3>Rotisserie Records</h3>
+          <hr class="w3-clear">
+        </div>
+        <table class="w3-table w3-striped">
+          {% for _,row in roto.iterrows() %}
+          <tr>
+            <td><b>{{row['teamName']}}</b></td>
+            <td><i>{{row['rotWins']}} - {{row['rotLosses']}}</i></td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
     </div>
 
     <!-- Middle Column -->
-    <div class="w3-col m6">
+    <div class="w3-col m8">
       <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
         <h3>Weekly Info</h3>
         <hr class="w3-clear">
@@ -111,7 +139,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
     </div>
 
     <!-- Right Column -->
-    <div class="w3-col m3">
+    <div class="w3-col m3"><!-- 
       <div class="w3-container w3-card w3-white w3-theme-l3 w3-round w3-margin-top w3-margin-left"><br>
         <div class="w3-container w3-theme-l3">
           <h3>Standings</h3>
@@ -142,9 +170,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
           {% endfor %}
         </table>
         <br>
-      </div>
+      </div> -->
     <!-- End Right Column -->
-    </div>
+    <!-- </div> -->
   <!-- End Grid -->
   </div>
 

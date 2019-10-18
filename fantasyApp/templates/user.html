@@ -10,16 +10,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
+<td style ="word-break:break-all;">
 </style>
 <body bgcolor = "#C8C8C7" >
 
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-black w3-left-align w3-large">
-    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-dark"><i class="fa fa-home w3-margin-right"></i>League Home</a>
+    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i><i>League Home</i></a>
     
     <div class="w3-dropdown-hover w3-hide-small">
-      <button class="w3-button w3-padding-large" title="Notifications">Teams</button>
+      <button class="w3-button w3-padding-large" title="Notifications"><i>Teams</i></button>
       <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
         {% for team in teams %}
           <a href="/u/{{team['teamId']}}/" class="w3-bar-item w3-button">{{team['teamName']}}</a>
@@ -27,20 +28,29 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
       </div>
     </div>
     <div class="w3-dropdown-hover w3-hide-small">
-      <button class="w3-button w3-padding-large" title="Notifications">Years</button>
+      <button class="w3-button w3-padding-large" title="Notifications"><i>Years</i></button>
       <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
         {% for year in years %}
           <a href="#" class="w3-bar-item w3-button">{{year}}</a>
         {% endfor %}
       </div>
     </div>
-    <a href="/u/6/" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Years">Advanced Stats</a>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Years"><i>Advanced Stats</i></a>
   </div>
 </div>
 
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
-  <!-- The Grid -->
-  <div class="w3-row">
+    <div class="w3-row">
+      <div class="w3-col m4">
+        <div class="w3-bar w3-theme-l3 w3-left-align w3-large">
+          <h3 class="w3-left w3-margin"> {{teamName}} </h3><br>
+        </div>
+      </div>
+        <div class="w3-col m8">
+        <div class="w3-bar w3-theme-l3 w3-left-align w3-large">
+          <h3 class="w3-left w3-margin"> {{teamName}} </h3><br>
+        </div>
+      </div>
 
-    <h1 class="w3-center"><i class="fa fa-trophy" aria-hidden="true"></i> Current Team: {{teamName}} <i class="fa fa-trophy" aria-hidden="true"></i></h1>
+</div>

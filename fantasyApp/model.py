@@ -22,6 +22,12 @@ def id_to_name(id):
     name = query_db(query_team, one=True)['teamName']
     return name
 
+def id_to_owner(id):
+    """ Convert a team id into a team owner. """
+    query_team = "select * from teams where teamId = %d" % id
+    owner = query_db(query_team, one=True)['owner']
+    return owner
+
 
 def getAllYears():
     """ Get years for top bar, needed on every page. """
