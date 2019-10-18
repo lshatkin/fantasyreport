@@ -7,6 +7,7 @@ import pandas as pd
 import statistics
 import operator
 
+
 def createScoresWeek(league, week):
     """ Create a dataframe that holds scores for all weeks. """
     regSeasonWeeks = np.arange(1, league.settings.reg_season_count + 1)
@@ -20,14 +21,15 @@ def createScoresWeek(league, week):
 def weeklyAwards(scoresDf, year, week):
     """ Calculate weekly awards for homepage. """
     maxScore = scoresDf.max()
+    minScore = scoresDf.min()
     indexMax = scoresDf.values.argmax()
     maxScoreTeam = scoresDf.index[indexMax]
     indexMin = scoresDf.values.argmin()
     minScoreTeam = scoresDf.index[indexMin]
     median = scoresDf.median()
     command = "insert into thisWeekSummary values (%d, %d, %d, \
-                %d, %d, %d)" % (week, year, maxScoreTeam, 
-                minScoreTeam, median, maxScore)
+                %d, %d, %d, %d)" % (week, year, maxScoreTeam, 
+                minScoreTeam, median, maxScore, minScore)
     get_db().execute(command)
 
 

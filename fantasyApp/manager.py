@@ -5,14 +5,14 @@ import fantasyApp.services.currentWeek as currentWeek
 from fantasyApp.services.players import addPlayersToDB
 from fantasyApp.model import initialize_league
 from fantasyApp import app
+from tqdm import tqdm
 
 manager = Manager(app)
 currentLeague = initialize_league(2019)
 
 @manager.command
 def fillHistoricalDBs():
-    for year in range(2014, 2020):
-        print(year)
+    for year in tqdm(range(2014, 2020)):
         l = initialize_league(year)
         getYearlyInfo(l, year)
     getTeams(currentLeague)
@@ -23,6 +23,13 @@ def fillCurrentDBs():
     week = currentLeague.current_week - 1
     currentWeek.getWeeklyInfo(currentLeague, 2019, week)
     addPlayersToDB(currentLeague, week)
+
+@manager.command
+def test():
+    for t in currentLeague.teams:
+        roster = t.roster
+        for player in roster:
+            print(player.name, player.posRank)
 
 
 if __name__ == "__main__":

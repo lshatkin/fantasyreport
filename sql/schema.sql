@@ -25,6 +25,7 @@ CREATE TABLE thisWeekSummary(
     lowScorerId INT,
     averageScore REAL,
     maxScore REAL,
+    minScore REAL,
     PRIMARY KEY (week, year)
 );
 

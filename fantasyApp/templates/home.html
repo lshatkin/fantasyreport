@@ -17,7 +17,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
 <!-- Navbar -->
 <div class="w3-top">
  <div class="w3-bar w3-black w3-left-align w3-large">
-    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-dark"><i class="fa fa-home w3-margin-right"></i>League Home</a>
+    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-l3"><i class="fa fa-home w3-margin-right"></i>League Home</a>
     
     <div class="w3-dropdown-hover w3-hide-small">
       <button class="w3-button w3-padding-large" title="Notifications">Teams</button>
@@ -41,14 +41,15 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
 
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+  <div class="w3-bar w3-theme-d5 w3-left-align w3-large">
+    <h1 class="w3-center"> Evanston Fantasy Football League </h1>
+    <h3 class="w3-center"><i class="fa fa-trophy" aria-hidden="true"></i> Reigning Champion: {{current_champion}} <i class="fa fa-trophy" aria-hidden="true"></i></h3>
+  </div>
   <!-- The Grid -->
   <div class="w3-row">
-
-    <h1 class="w3-center"><i class="fa fa-trophy" aria-hidden="true"></i> Reigning Champion: {{current_champion}} <i class="fa fa-trophy" aria-hidden="true"></i></h1>
-
     <!-- Left Column -->
     <div class="w3-col m3">
-      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round "><br>
+      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round w3-margin-top w3-margin-right"><br>
         <div class="w3-container w3-theme-l3">
           <h3>Team of the Week</h3>
           <hr class="w3-clear">
@@ -77,19 +78,23 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
         <hr class="w3-clear">
         <table class="w3-table">
         <tr>
-          <td><b> Top Scorer of Week {{week}}</b></td>
+          <td><b> 🍾 Top Scorer of Week {{week}}</b></td>
           <td><i>{{weekly_info['top_scorer']}} with {{weekly_info['top_score']}} points</i></td>
         </tr>
         <tr>
-          <td><b> Average Score for Week {{week}}</b></td>
+          <td><b> 🥜 Low Scorer of Week {{week}}</b></td>
+          <td><i>{{weekly_info['low_scorer']}} with {{weekly_info['low_score']}} points</i></td>
+        </tr>
+        <tr>
+          <td><b> 👌 Average Score for Week {{week}}</b></td>
           <td><i>{{weekly_info['avg_score']}} points</i></td>
         </tr>
         <tr>
-          <td><b> Top Scorer Through Week {{week}} </b></td>
+          <td><b> 🚀 Top Scorer Through Week {{week}} </b></td>
           <td><i>{{weekly_info['max_score_team']}}</i></td>
         </tr>
         <tr>
-          <td><b> Lowest Scorer Through Week {{week}} </b></td>
+          <td><b> 🤢 Lowest Scorer Through Week {{week}} </b></td>
           <td><i>{{weekly_info['min_score_team']}}</i></td>
         </tr>
         </table>
@@ -107,7 +112,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
 
     <!-- Right Column -->
     <div class="w3-col m3">
-      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round "><br>
+      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round w3-margin-top w3-margin-left"><br>
         <div class="w3-container w3-theme-l3">
           <h3>Standings</h3>
           <hr class="w3-clear">
@@ -123,7 +128,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: 'Poppins', sans-serif}
         <br>
       </div>
       <br>
-      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round "><br>
+      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round w3-margin-top w3-margin-left"><br>
         <div class="w3-container w3-theme-l3">
           <h3>Rotisserie Records</h3>
           <hr class="w3-clear">

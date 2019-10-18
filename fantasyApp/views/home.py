@@ -35,6 +35,7 @@ def getWeeklyExtras(context):
     context['badManDiff'] = pointDiff
     context['badManManager'] = id_to_name(bench['team'])
 
+
 def get_roto_records(context):
     query_years = "select * from years where year = %d" % context['year']
     year = query_db(query_years)
@@ -52,6 +53,8 @@ def get_weekly_info(context):
     context['weekly_info']['top_scorer'] = id_to_name(weekly['topScorerId'])
     context['weekly_info']["top_score"] = weekly['maxScore']
     context['weekly_info']['avg_score'] = weekly['averageScore']
+    context['weekly_info']['low_scorer'] = id_to_name(weekly['lowScorerId'])
+    context['weekly_info']["low_score"] = weekly['minScore']
     context['week'] = weekly['week']
     context['year'] = datetime.datetime.now().year
     query_years = "select * from years where year = %d" % context['year']
