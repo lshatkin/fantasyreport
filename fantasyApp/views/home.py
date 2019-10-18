@@ -13,6 +13,7 @@ import fantasyApp.config
 import sys
 import datetime
 import operator
+import pandas as pd
 
 
 def id_to_name(id):
@@ -21,16 +22,7 @@ def id_to_name(id):
     return name
 
 
-def get_weekly_info():
-    context = {"weekly_info": {},
-                "current_champion": "",
-                "standings": {},
-                "rotisserie": {},
-                "avg_margin": {},
-                "week": 0,
-                "year": 0
-                }
-
+def get_weekly_info(context):
     query_weekly = "select * from thisWeekSummary"
     weekly = query_db(query_weekly,one=True)
     context['weekly_info']['top_scorer'] = id_to_name(weekly['topScorerId'])
@@ -40,22 +32,15 @@ def get_weekly_info():
     context['year'] = datetime.datetime.now().year
     query_years = "select * from years where year = %d" % context['year']
     points = query_db(query_years)
-    max_points = 0
-    id_max = 0
-    min_points = points[0]['pointsFor']
-    id_min = 0
-    for team in points:
-        if team['pointsFor'] > max_points:
-            max_points = team['pointsFor']
-            id_max = team['teamId']
-        if team['pointsFor'] < min_points:
-            min_points = team['pointsFor']
-            id_min = team['teamId']
+    pointsDf = pd.DataFrame.from_dict(points)
+    max_points = max(pointsDf['pointsFor'])
+    min_points = min(pointsDf['pointsFor'])
+    id_max = pointsDf.loc[pointsDf['pointsFor'].idxmax()]['teamId']
+    id_min = pointsDf.loc[pointsDf['pointsFor'].idxmin()]['teamId']
     context['weekly_info']['max_score_team'] = id_to_name(id_max)
     context['weekly_info']['max_score'] = max_points
     context['weekly_info']['min_score_team'] = id_to_name(id_min)
     context['weekly_info']['min_score'] = min_points
-
     return context
 
 
@@ -71,23 +56,26 @@ def get_standings(context):
     query_teams = "select * from years where year = %d" % context['year']
     teams = query_db(query_teams)
     for team in teams:
-        context['standings'][id_to_name(team['teamId'])] = f"{team['wins']}-{team['losses']}-0"
+        context['standings'][id_to_name(team['teamId'])] = f"{team['wins']}-{team['losses']}"
         #context['standings'] = sorted(context['standings'].items(), key=lambda x: x[1], reverse=True)
-
-    #print('###########', file=sys.stderr)
-    #print(context['standings'], file=sys.stderr)
-    #print('###########', file=sys.stderr)
-
-
 
 
 @fantasyApp.app.route('/', methods=['GET'])
 def show_home():
     """Display / route."""
-    context = get_weekly_info()
+    context = {"weekly_info": {},
+                "current_champion": "",
+                "standings": {},
+                "rotisserie": {},
+                "avg_margin": {},
+                "week": 0,
+                "year": 0
+    }
+    get_weekly_info(context)
     get_reigning_champ(context)
     get_standings(context)
-
-
-
     return flask.render_template("home.html", **context)
+
+    #print('###########', file=sys.stderr)
+    #print(context['standings'], file=sys.stderr)
+    #print('###########', file=sys.stderr)
