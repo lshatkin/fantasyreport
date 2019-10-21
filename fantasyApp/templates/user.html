@@ -49,61 +49,85 @@ html, body, h1, h2, h3 , h4, h5 {font-family: 'Poppins', sans-serif}
 
 <!-- Page Container -->
 <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
-    <div class="w3-cell-row w3-margin-left w3-margin-right w3-card w3-round" style="width:97.6%">
-      <div class="w3-container w3-theme-d4 w3-cell">
-          <h1> <b>{{teamName}} </b></h1>
+  <div class="w3-cell-row w3-margin-left w3-margin-right w3-card w3-round" style="width:97.6%">
+    <div class="w3-container w3-theme-d4 w3-cell">
+        <h1> <b>{{teamName}} </b></h1>
+    </div>
+    <div class="w3-container w3-theme-d4 w3-cell">
+        <h5> <b>Current Record:</b> <i> {{currentWins}} - {{currentLosses}} </i></h5>
+        <h5> <b>All Time Record:</b> <i>{{totalWins}} - {{totalLosses}}</i></h5>
+    </div>
+    <div class="w3-container w3-theme-d4 w3-cell">
+        <h5> <b>Championships:</b><i> {{championships}} </i></h5>
+        <h5> <b>All Time Rotisserie Record:</b><i> {{rotWins}} - {{rotLosses}}</i> </h5>
+    </div>
+  </div>
+  <div class="w3-row">
+    <div class = "w3-col m9">
+      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+        <h4> Team History </h4>
+        <hr class="w3-clear">
+        <p> {{teamName}} is an organization run by {{owner}}. The team has a lifetime record of {{totalWins}} - {{totalLosses}}, which is <b>TODO</b> best in the league so far. He has won 
+        {% if championships == 1 %}
+          {{championships}} championship
+        {% else %}
+          {{championships}} championships
+        {% endif %}
+        to date. His best year regular season was in {{bestYear}}, where he went {{bestYearWins}} - {{bestYearLosses}}, 
+        {% if bestYearFinalStanding == 1 %}
+          and won the champhionship.
+        {% elif bestYearFinalStanding == 2 %}
+          made the championship, but lost.
+        {% elif bestYearFinalStanding < 5 %}
+          made the playoffs, but got bounced in the first round.
+        {% else %}
+          but failed to even make the playoffs this year. This is a miserable franchise.
+        {% endif %}
+        </p>
       </div>
-      <div class="w3-container w3-theme-d4 w3-cell">
-          <h5> <b>Current Record:</b> <i> {{currentWins}} - {{currentLosses}} </i></h5>
-          <h5> <b>All Time Record:</b> <i>{{totalWins}} - {{totalLosses}}</i></h5>
-      </div>
-      <div class="w3-container w3-theme-d4 w3-cell">
-          <h5> <b>Championships:</b><i> {{championships}} </i></h5>
-          <h5> <b>All Time Rotisserie Record:</b><i> {{rotWins}} - {{rotLosses}}</i> </h5>
+      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+          <h4> Accolades This Year</h4>
+          <hr class="w3-clear">
       </div>
     </div>
-    <div class="w3-row">
-      <div class = "w3-col m9">
-        <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
-          <div class="w3-container w3-white">
-            <h4> Team History </h4>
-            <hr class="w3-clear">
-            <p> {{teamName}} is an organization run by {{owner}}. The team has a lifetime record of {{totalWins}} - {{totalLosses}}, which is <b>TODO</b> best in the league so far. He has won {{championships}} championships to date. His best year regular season was in {{bestYear}}, where he went {{bestYearWins}} - {{bestYearLosses}}, 
-            {% if bestYearFinalStanding == 1 %}
-              and won the champhionship.
-            {% elif bestYearFinalStanding == 2 %}
-              made the championship, but lost.
-            {% elif bestYearFinalStanding < 5 %}
-              made the playoffs, but got bounced in the first round.
-            {% else %}
-              but failed to even make the playoffs this year. This is a miserable franchise.
-            {% endif %}
-          </div>
+    <div class = "w3-col m3">
+      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round w3-margin-top w3-margin-right"><br>
+        <div class="w3-container w3-theme-l3">
+          <h3>Historic Records</h3>
+          <hr class="w3-clear">
         </div>
-      </div>
-      <div class = "w3-col m3">
-        <div class="w3-container w3-card w3-white w3-theme-l3 w3-round w3-margin-top w3-margin-right"><br>
-          <div class="w3-container w3-theme-l3">
-            <h3>Historic Records</h3>
-            <hr class="w3-clear">
-          </div>
-          <table class="w3-table w3-striped">
-            <tr>
-              <th class = "w3-center">Year</th>
-              <th class = "w3-center">Record</th>
-              <th class = "w3-center">Final Standing</th>
-            </tr>
-            {% for _,row in teamHistory.iterrows() %}
-            <tr>
-              <td class = "w3-center"><b>{{row['year']|int}}</b></td>
-              <td class = "w3-center"><i>{{row['wins']|int}} - {{row['losses']|int}}</i></td>
-              <td class = "w3-center">{{row['finalStanding']|int}}</td>
-            </tr>
-            {% endfor %}
-          </table><br>
-        </div>
+        <table class="w3-table w3-striped">
+          <tr>
+            <th class = "w3-center">Year</th>
+            <th class = "w3-center">Record</th>
+            <th class = "w3-center">Final Standing</th>
+          </tr>
+          {% for _,row in teamHistory.iterrows() %}
+          <tr>
+            <td class = "w3-center"><b>{{row['year']|int}}</b></td>
+            <td class = "w3-center"><i>{{row['wins']|int}} - {{row['losses']|int}}</i></td>
+            <td class = "w3-center">{{row['finalStanding']|int}}</td>
+          </tr>
+          {% endfor %}
+        </table><br>
       </div>
     </div>
+  </div>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!-- Footer -->
+<footer class="w3-container w3-black w3-padding-16">
+  <h5></h5>
+</footer>
 
+<footer class="w3-container w3-theme-d5">
+  <p><i>Approved by Commissioner Alice Heuer</i></p>
+</footer>
+
+</body>
+</html>
 
