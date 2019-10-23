@@ -5,3 +5,4 @@ To get started:
     - source env/bin/activate
 2. Install Utilities
     - brew install sqlite3 curl
+3. poop ur pants
