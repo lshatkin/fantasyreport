@@ -8,8 +8,8 @@ import statistics
 import operator
 
 
-def createScoresWeek(league, week):
-    """ Create a dataframe that holds scores for all weeks. """
+def createScoresDf(league, week):
+    """ Create a dataframe that holds scores. """
     num_w = league.settings.reg_season_count
     reg_weeks = np.arange(1, num_w+1)
     teams = [t.team_id for t in league.teams]
@@ -33,7 +33,7 @@ def weeklyAwards(scores_df, year, week):
     get_db().execute(command)
 
 
-def fillThisWeekScores(scores_df):
+def fillScores(scores_df):
     """ Fill in weekly scores DB. """
     for i in scores_df.index:
         score = scores_df.loc[i]
@@ -44,6 +44,6 @@ def fillThisWeekScores(scores_df):
 
 def getWeeklyInfo(league, year, week):
     """ Get general weekly for display on homepage. """
-    scoresDf = createScoresWeek(league, week)
-    weeklyAwards(scoresDf, year, week)
-    fillThisWeekScores(scoresDf)
+    scores_df = createScoresDf(league, week)
+    weeklyAwards(scores_df, year, week)
+    fillScores(scores_df)

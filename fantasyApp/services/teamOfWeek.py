@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 from fantasyApp.model import id_to_name
-from fantasyApp.services.players import createPlayersDf
+from fantasyApp.services.playersCurrent import createPlayersDf
 
 
 def teamOfWeek(week):

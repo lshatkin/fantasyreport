@@ -1,5 +1,5 @@
 """ Get the bad manager of the week """
-from fantasyApp.services.players import createPlayersDf
+from fantasyApp.services.playersCurrent import createPlayersDf
 import pandas as pd
 import numpy as np
 

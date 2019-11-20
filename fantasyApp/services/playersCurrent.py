@@ -1,4 +1,4 @@
-""" Get final stats for a given year. """
+""" Get player info for a given week. """
 from fantasyApp.model import get_db, query_db
 import pandas as pd
 import numpy as np

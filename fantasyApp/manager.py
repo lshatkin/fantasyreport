@@ -1,8 +1,8 @@
 from flask_script import Manager
-from fantasyApp.services.historical import getYearlyInfo, getRotisserie
-from fantasyApp.services.teams import getTeams
+from fantasyApp.services.teamsHistorical import getYearlyInfo, getRotisserie
+from fantasyApp.services.teamsCurrent import getTeams
 from fantasyApp.services.currentWeek import getWeeklyInfo
-from fantasyApp.services.players import addPlayersToDB
+from fantasyApp.services.playersCurrent import addPlayersToDB
 from fantasyApp.model import initialize_league
 from fantasyApp import app
 from tqdm import tqdm
@@ -19,7 +19,7 @@ def fillHistoricalDBs():
 
 @manager.command
 def fillCurrentDBs():
-    """ Get information from current week. """
+    """Get information from current week."""
     week = currentLeague.current_week - 1
     getWeeklyInfo(currentLeague, 2019, week)
     addPlayersToDB(currentLeague, week)
