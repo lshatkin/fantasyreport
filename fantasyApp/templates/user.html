@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<title>Fantasy Report</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-blue.css">
+<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+html, body, h1, h2, h3 , h4, h5 {font-family: 'Poppins', sans-serif}
+<td style ="word-break:break-all;">
+.col-container {
+    display: table; /* Make the container element behave like a table */
+    width: 100%; /* Set full-width to expand the whole page */
+}
+
+.col {
+    display: table-cell; /* Make elements inside the container behave like table cells */
+}
+</style>
+<body bgcolor = "#C8C8C7" >
+
+<!-- Navbar -->
+<div class="w3-top">
+ <div class="w3-bar w3-black w3-left-align w3-large">
+    <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i><i>League Home</i></a>
+    
+    <div class="w3-dropdown-hover w3-hide-small">
+      <button class="w3-button w3-padding-large" title="Notifications"><i>Teams</i></button>
+      <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+        {% for team in teams %}
+          <a href="/u/{{team['teamId']}}/" class="w3-bar-item w3-button">{{team['teamName']}}</a>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="w3-dropdown-hover w3-hide-small">
+      <button class="w3-button w3-padding-large" title="Notifications"><i>Years</i></button>
+      <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+        {% for year in years %}
+          <a href="#" class="w3-bar-item w3-button">{{year}}</a>
+        {% endfor %}
+      </div>
+    </div>
+    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Years"><i>Advanced Stats</i></a>
+  </div>
+</div>
+
+<!-- Page Container -->
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+  <div class="w3-cell-row w3-margin-left w3-margin-right w3-card w3-round" style="width:97.6%">
+    <div class="w3-container w3-theme-d4 w3-cell">
+        <h1> <b>{{teamName}} </b></h1>
+    </div>
+    <div class="w3-container w3-theme-d4 w3-cell">
+        <h5> <b>Current Record:</b> <i> {{currentWins}} - {{currentLosses}} </i></h5>
+        <h5> <b>All Time Record:</b> <i>{{totalWins}} - {{totalLosses}}</i></h5>
+    </div>
+    <div class="w3-container w3-theme-d4 w3-cell">
+        <h5> <b>Championships:</b><i> {{championships}} </i></h5>
+        <h5> <b>All Time Rotisserie Record:</b><i> {{rotWins}} - {{rotLosses}}</i> </h5>
+    </div>
+  </div>
+  <div class="w3-row">
+    <div class = "w3-col m9">
+      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+        <h4> Team History </h4>
+        <hr class="w3-clear">
+        <p> {{teamName}} is an organization run by {{owner}}. The team has a lifetime record of {{totalWins}} - {{totalLosses}}, which is <b>TODO</b> best in the league so far. He has won 
+        {% if championships == 1 %}
+          {{championships}} championship
+        {% else %}
+          {{championships}} championships
+        {% endif %}
+        to date. His best year regular season was in {{bestYear}}, where he went {{bestYearWins}} - {{bestYearLosses}}, 
+        {% if bestYearFinalStanding == 1 %}
+          and won the champhionship.
+        {% elif bestYearFinalStanding == 2 %}
+          made the championship, but lost.
+        {% elif bestYearFinalStanding < 5 %}
+          made the playoffs, but got bounced in the first round.
+        {% else %}
+          but failed to even make the playoffs this year. This is a miserable franchise.
+        {% endif %}
+        </p>
+      </div>
+      <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
+          <h4> Accolades This Year</h4>
+          <hr class="w3-clear">
+      </div>
+    </div>
+    <div class = "w3-col m3">
+      <div class="w3-container w3-card w3-white w3-theme-l3 w3-round w3-margin-top w3-margin-right"><br>
+        <div class="w3-container w3-theme-l3">
+          <h3>Historic Records</h3>
+          <hr class="w3-clear">
+        </div>
+        <table class="w3-table w3-striped">
+          <tr>
+            <th class = "w3-center">Year</th>
+            <th class = "w3-center">Record</th>
+            <th class = "w3-center">Final Standing</th>
+          </tr>
+          {% for _,row in teamHistory.iterrows() %}
+          <tr>
+            <td class = "w3-center"><b>{{row['year']|int}}</b></td>
+            <td class = "w3-center"><i>{{row['wins']|int}} - {{row['losses']|int}}</i></td>
+            <td class = "w3-center">{{row['finalStanding']|int}}</td>
+          </tr>
+          {% endfor %}
+        </table><br>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!-- Footer -->
+<footer class="w3-container w3-black w3-padding-16">
+  <h5></h5>
+</footer>
+
+<footer class="w3-container w3-theme-d5">
+  <p><i>Approved by Commissioner Alice Heuer</i></p>
+</footer>
+
+</body>
+</html>
+

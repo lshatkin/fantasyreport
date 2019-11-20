@@ -6,9 +6,9 @@ fantasyreport python package configuration.
 from setuptools import setup
 
 setup(
-    name='fantasyReport',
+    name='fantasyApp',
     version='0.1.0',
-    packages=['fantasyReport'],
+    packages=['fantasyApp'],
     include_package_data=True,
     install_requires=[
         'bs4==0.0.1',

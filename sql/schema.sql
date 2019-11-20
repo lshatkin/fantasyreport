@@ -5,24 +5,50 @@ CREATE TABLE teams(
     PRIMARY KEY(teamId)
 );
 
-CREATE TABLE history(
+CREATE TABLE years(
     teamId INT,
+    teamName VARCHAR(40),
     year INT,
     wins INT,
     losses INT,
-    pointsFor INT,
+    pointsFor REAL,
     finalStanding INT,
+    rotWins INT,
+    rotLosses INT,
+    rotTies INT,
     PRIMARY KEY (teamId, year)
 );
 
--- CREATE TABLE thisWeekSummary(
---     weekId INT,
---     topScorerId INT,
---     lowScorerId INT,
--- );
+CREATE TABLE yearSettings(
+    year INT,
+    regSeasonGames INT,
+    playoffTeams INT,
+    PRIMARY KEY (year)
+);
 
--- CREATE TABLE thisWeekScores(
---     teamId INT,
---     weekId INT,
---     score INT
--- );
+CREATE TABLE thisWeekSummary(
+    week INT,
+    year INT,
+    topScorerId INT,
+    lowScorerId INT,
+    averageScore REAL,
+    maxScore REAL,
+    minScore REAL,
+    PRIMARY KEY (week, year)
+);
+
+CREATE TABLE thisWeekScores(
+    teamId INT,
+    score REAL,
+    PRIMARY KEY (teamId)
+);
+
+CREATE TABLE players(
+    name VARCHAR(40),
+    points REAL,
+    projection REAL,
+    position VARCHAR(10),
+    slot VARCHAR(10),
+    team INT,
+    PRIMARY KEY(name)
+);

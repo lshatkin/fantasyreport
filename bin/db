@@ -1,0 +1,83 @@
+#!/bin/bash
+# insta485db
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+
+# Sanity check command line options
+usage() {
+  echo "Usage: $0 (create|destroy|resetHard|dump|resetSoft)"
+}
+
+if [ $# -ne 1 ]; then
+  usage
+  exit 1
+fi
+
+# Parse argument.  $1 is the first argument
+case $1 in
+  "create")
+
+  if [ -d var/ ]
+  then
+      echo "Error: database already exists"
+  else
+    mkdir var/
+    echo "+ mkdir var/"
+    sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql
+    echo "+ sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql"
+    python fantasyApp/manager.py fillHistoricalDBs
+    echo "+ python fantasyApp/manager.py fillDBs"
+    python fantasyApp/manager.py fillCurrentDBs
+    echo "+ python fantasyApp/manager.py fillCurrentDBs"
+  fi
+    ;;
+
+  "destroy")
+    rm -r var/
+    echo "+ rm var/"
+    ;;
+
+  "resetHard")
+    rm -r var/
+    echo "+ rm var/"
+    mkdir var/
+    echo "+ mkdir var/"
+    sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql
+    echo "+ sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql"
+    python fantasyApp/manager.py fillHistoricalDBs
+    echo "+ python fantasyApp/manager.py fillDBs"
+    python fantasyApp/manager.py fillCurrentDBs
+    echo "+ python fantasyApp/manager.py fillCurrentDBs"
+    ;;
+
+  "resetSoft")
+    rm -r var/
+    echo "+ rm var/"
+    mkdir var/
+    echo "+ mkdir var/"
+    sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql
+    echo "+ sqlite3 var/fantasyApp.sqlite3 < sql/schema.sql"
+    python fantasyApp/manager.py fillCurrentDBs
+    echo "+ python fantasyApp/manager.py fillCurrentDBs"
+    ;;
+
+  "dump")
+    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM teams'
+    echo ""
+    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM years'
+    echo ""
+    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM thisWeekSummary'
+    echo ""
+    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM thisWeekScores'
+    echo ""
+    # sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM players'
+    echo ""
+    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM yearSettings'
+    ;;
+  *)
+    usage
+    exit 1
+    ;;
+esac
