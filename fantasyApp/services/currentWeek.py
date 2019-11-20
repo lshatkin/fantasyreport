@@ -10,35 +10,35 @@ import operator
 
 def createScoresWeek(league, week):
     """ Create a dataframe that holds scores for all weeks. """
-    regSeasonWeeks = np.arange(1, league.settings.reg_season_count + 1)
+    num_w = league.settings.reg_season_count
+    reg_weeks = np.arange(1, num_w+1)
     teams = [t.team_id for t in league.teams]
-    scoring = pd.DataFrame(index = teams, columns = regSeasonWeeks)
+    s = pd.DataFrame(index=teams, columns=reg_weeks)
     for t in league.teams:
-        scoring.loc[t.team_id] = t.scores[0:league.settings.reg_season_count]
-    return scoring.loc[:, week]
+        s.loc[t.team_id] = t.scores[0:num_w]
+    return s.loc[:, week]
 
 
-def weeklyAwards(scoresDf, year, week):
+def weeklyAwards(scores_df, year, week):
     """ Calculate weekly awards for homepage. """
-    maxScore = scoresDf.max()
-    minScore = scoresDf.min()
-    indexMax = scoresDf.values.argmax()
-    maxScoreTeam = scoresDf.index[indexMax]
-    indexMin = scoresDf.values.argmin()
-    minScoreTeam = scoresDf.index[indexMin]
-    median = scoresDf.median()
-    command = "insert into thisWeekSummary values (%d, %d, %d, \
-                %d, %d, %d, %d)" % (week, year, maxScoreTeam, 
-                minScoreTeam, median, maxScore, minScore)
+    i_max = scores_df.values.argmax()
+    max_team = scores_df.index[i_max]
+    i_min = scores_df.values.argmin()
+    min_team = scores_df.index[i_min]
+    command = "insert into thisWeekSummary values (%d, \
+                %d, %d, %d, %d, %d, \
+                %d)" % (week, year, max_team, 
+                min_team, scores_df.median(), 
+                scores_df.max(), scores_df.min())
     get_db().execute(command)
 
 
-def fillThisWeekScores(scoresDf):
+def fillThisWeekScores(scores_df):
     """ Fill in weekly scores DB. """
-    for i in scoresDf.index:
-        score = scoresDf.loc[i]
-        command = "insert into thisWeekScores values \
-                    (%d, %d)" % (i, score)
+    for i in scores_df.index:
+        score = scores_df.loc[i]
+        command = "insert into thisWeekScores \
+                    values (%d, %d)" % (i, score)
         get_db().execute(command)
 
 

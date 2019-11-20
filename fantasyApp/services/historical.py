@@ -5,53 +5,55 @@ import numpy as np
 
 def getYearlyInfo(league, year):
     """ Insert necessary info into years SQL DB. """
-    scoresDf = createScoresDf(league)
-    rotRecords = getRotisserie(league, scoresDf)
+    scores_df = createScoresDf(league)
+    rot = getRotisserie(league, scores_df)
     for team in league.teams:
-        teamId = team.team_id
-        teamName = team.team_name.replace("'","''")
-        wins = team.wins
-        losses = team.losses
-        pointsFor = round(team.points_for, 1)
-        standing = team.final_standing
-        rotWins = rotRecords.loc[teamId, 'wins']
-        rotLosses = rotRecords.loc[teamId, 'losses']
-        rotTies = rotRecords.loc[teamId, 'ties']
+        t_id = team.team_id
+        t_name = team.team_name.replace("'","''")
+        p_for = round(team.points_for, 1)
+        r_w = rot.loc[t_id, 'wins']
+        r_l = rot.loc[t_id, 'losses']
+        r_t = rot.loc[t_id, 'ties']
         command = "insert into years values \
-                    (%d, '%s', %d, %d, %d, %d, %d, %d, %d, %d)" % (teamId,
-                    teamName, year, wins, losses, 
-                    pointsFor, standing, rotWins, rotLosses, rotTies)
+                    (%d, '%s', %d, %d, %d, \
+                    %d, %d, %d, %d, %d)" % (t_id,
+                    t_name, year, team.wins, team.losses, 
+                    p_for, team.final_standing, 
+                    r_w, r_l, r_t)
         get_db().execute(command)
-    regSeasonWeeks = league.settings.reg_season_count
-    playoffTeams = league.settings.playoff_team_count
-    command = "insert into yearSettings values (%d, %d, %d)" %(year,
-                regSeasonWeeks, playoffTeams)
+    r_weeks = league.settings.reg_season_count
+    p_teams = league.settings.playoff_team_count
+    command = "insert into yearSettings values \
+                (%d, %d, %d)" % (year,
+                r_weeks, p_teams)
     get_db().execute(command)
 
 def createScoresDf(league):
     """ Create a dataframe that holds scores for all weeks. """
-    regSeasonWeeks = np.arange(1, league.settings.reg_season_count + 1)
+    reg_week_count = league.settings.reg_season_count
+    reg_weeks = np.arange(1, reg_week_count + 1)
     teams = [t.team_id for t in league.teams]
-    scoring = pd.DataFrame(index = teams, columns = regSeasonWeeks)
+    s = pd.DataFrame(index=teams, columns=reg_weeks)
     for t in league.teams:
-        scoring.loc[t.team_id] = t.scores[0:league.settings.reg_season_count]
-    return scoring
+        s.loc[t.team_id] = t.scores[0:reg_week_count]
+    return s
 
 
-def getRotisserie(league, scoresDf):
+def getRotisserie(league, scores_df):
     """ Calculate rotisserie records for a given season. """
-    rot = pd.DataFrame(0, index = scoresDf.index, columns = ['wins', 'losses', 'ties'])
-    for (week, scores) in scoresDf.iteritems():
-        for (teamId1, s1) in scores.items():
-            for (teamId2, s2) in scores.items():
-                if teamId1 == teamId2:
+    rot = pd.DataFrame(0, index = scores_df.index, 
+            columns = ['wins', 'losses', 'ties'])
+    for (week, scores) in scores_df.iteritems():
+        for (t1, s1) in scores.items():
+            for (t2, s2) in scores.items():
+                if t1 == t2:
                     continue
                 if s1 > s2:
-                    rot.loc[teamId1, 'wins'] += 1
+                    rot.loc[t1, 'wins'] += 1
                 elif s1 < s2:
-                    rot.loc[teamId1, 'losses'] += 1
+                    rot.loc[t1, 'losses'] += 1
                 elif s1 == 0 and s2 == 0:
                     continue
                 else:
-                    rot.loc[teamId1, 'ties'] += 1
+                    rot.loc[t1, 'ties'] += 1
     return rot

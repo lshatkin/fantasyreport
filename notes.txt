@@ -5,4 +5,7 @@ need to alias python=python3 in the ssh
 1. ssh -i fantasy_report.pem ubuntu@ec2-3-15-44-26.us-east-2.compute.amazonaws.com
 2. cd fantasyreport
 3. git pull
+4. source env/bin/activate
+5. pkill -f gunicorn
+6. gunicorn -b localhost:8000 -w 2 -D fantasyApp:app
 

@@ -9,7 +9,8 @@ import flask
 from flask import request, session, redirect, url_for
 import fantasyApp
 from fantasyApp.model import query_db, id_to_name, getAllYears, getAllTeams
-from fantasyApp.services.players import badManager, teamOfWeek
+from fantasyApp.services.badManager import badManager
+from fantasyApp.services.teamOfWeek import teamOfWeek
 import fantasyApp.config
 import sys
 import datetime
