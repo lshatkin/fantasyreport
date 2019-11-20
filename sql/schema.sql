@@ -7,6 +7,7 @@ CREATE TABLE teams(
 
 CREATE TABLE years(
     teamId INT,
+    teamName VARCHAR(40),
     year INT,
     wins INT,
     losses INT,
@@ -16,6 +17,13 @@ CREATE TABLE years(
     rotLosses INT,
     rotTies INT,
     PRIMARY KEY (teamId, year)
+);
+
+CREATE TABLE yearSettings(
+    year INT,
+    regSeasonGames INT,
+    playoffTeams INT,
+    PRIMARY KEY (year)
 );
 
 CREATE TABLE thisWeekSummary(

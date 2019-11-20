@@ -9,6 +9,7 @@ def getYearlyInfo(league, year):
     rotRecords = getRotisserie(league, scoresDf)
     for team in league.teams:
         teamId = team.team_id
+        teamName = team.team_name.replace("'","''")
         wins = team.wins
         losses = team.losses
         pointsFor = round(team.points_for, 1)
@@ -17,10 +18,15 @@ def getYearlyInfo(league, year):
         rotLosses = rotRecords.loc[teamId, 'losses']
         rotTies = rotRecords.loc[teamId, 'ties']
         command = "insert into years values \
-                    (%d, %d, %d, %d, %d, %d, %d, %d, %d)" % (teamId,
-                    year, wins, losses, 
-                        pointsFor, standing, rotWins, rotLosses, rotTies)
+                    (%d, '%s', %d, %d, %d, %d, %d, %d, %d, %d)" % (teamId,
+                    teamName, year, wins, losses, 
+                    pointsFor, standing, rotWins, rotLosses, rotTies)
         get_db().execute(command)
+    regSeasonWeeks = league.settings.reg_season_count
+    playoffTeams = league.settings.playoff_team_count
+    command = "insert into yearSettings values (%d, %d, %d)" %(year,
+                regSeasonWeeks, playoffTeams)
+    get_db().execute(command)
 
 def createScoresDf(league):
     """ Create a dataframe that holds scores for all weeks. """
