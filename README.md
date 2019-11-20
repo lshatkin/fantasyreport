@@ -6,7 +6,7 @@ Fake test
 2. Install Utilities
     - brew install sqlite3 curl
 3. Install Libraries
-    - pip install reqs.txt
+    - pip install -r reqs.txt
     - pip install -e .
 4. Reset DB
     - ./bin/db resetHard
