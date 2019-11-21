@@ -7,9 +7,16 @@ then
     ./bin/db create
 fi
 
-ssh -i fantasy_report.pem ubuntu@ec2-3-15-44-26.us-east-2.compute.amazonaws.com
-cd fantasy_report
-source env/bin/activate
-git pull
-pkill -f gunicorn
-gunicorn -b localhost:8000 -w 2 -D fantasyApp:app
+echo "ssh -i fantasy_report.pem ubuntu@ec2-3-15-44-26.us-east-2.compute.amazonaws.com "
+ssh -i fantasy_report.pem ubuntu@ec2-3-15-44-26.us-east-2.compute.amazonaws.com << EOF
+    cd fantasyreport/
+    echo "git pull"
+    git pull
+    ls
+    echo "source env/bin/activate"
+    source env/bin/activate
+    echo "pkill -f gunicorn"
+    pkill -f gunicorn
+    echo "gunicorn -b localhost:8000 -w 2 -D fantasyApp:app"
+    gunicorn -b localhost:8000 -w 2 -D fantasyApp:app
+EOF
