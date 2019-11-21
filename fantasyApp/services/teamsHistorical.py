@@ -16,11 +16,11 @@ def storeFinalRosters(team, year):
         if isinstance(roster[i], list):
             roster[i] = 0
     # Get only one position from position rank
-    for i in range(2, len(roster), 4):
+    for i in range(1, len(roster), 4):
         slots = roster[i]
         roster[i] = slots[0]
         s_i = 1
-        while '/' in roster[i]:
+        while '/' in roster[i] and roster[i] != 'D/ST':
             roster[i] = slots[s_i]
     while len(roster) < ROSTER_SIZE * 4:
         roster.append("Empty")

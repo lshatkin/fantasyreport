@@ -67,7 +67,7 @@ html, body, h1, h2, h3 , h4, h5 {font-family: 'Poppins', sans-serif}
       <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
         <h3> Team History </h3>
         <hr class="w3-clear">
-        <p> {{teamName}} is an organization run by {{owner}}. The team has a lifetime record of {{totalWins}} - {{totalLosses}}, which is <b>TODO</b> best in the league so far. He has won 
+        <p> {{teamName}} is an organization run by {{owner}}. The team has a lifetime record of {{totalWins}} - {{totalLosses}}, which is {{allTimeWinsPlace}} best in the league so far. He has won 
         {% if championships == 1 %}
           {{championships}} championship
         {% else %}
@@ -88,24 +88,26 @@ html, body, h1, h2, h3 , h4, h5 {font-family: 'Poppins', sans-serif}
       <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
         <h3> Rosters through the Years </h3>
         <hr class="w3-clear">
-        {% for _,row in teamHistory.iterrows() %}
-          <h4><b>{{row['year']|int}}</b></h4>
-          <table class="w3-table w3-striped">
-            <tr>
-              <th class = "w3-center">Position</th>
-              <th class = "w3-center">Player</th>
-              <th class = "w3-center">Pro Team</th>
-              <th class = "w3-center">Final Player Rank</th>
-            </tr>
-            {% for i in range(0, 64, 4) %}
+        {% for year in teamHistory.sort_values(by=['year'], ascending = False)['year'] %}
+          <h4><b>{{year}}</b></h4>
+          <div style = "height:250px; overflow:auto;">
+            <table class="w3-table w3-striped">
               <tr>
-                <td class = "w3-center"><b>{{roster_players[row['year']][i]}}</b></td>
-                <td class = "w3-center"><i>{{roster_players[row['year']][i+1]}}</i></td>
-                <td class = "w3-center"><i>{{roster_players[row['year']][i+2]}}</i></td>
-                <td class = "w3-center"><i>{{roster_players[row['year']][i+3]}}</i></td>
+                <th class = "w3-center">Position</th>
+                <th class = "w3-center">Player</th>
+                <th class = "w3-center">Pro Team</th>
+                <th class = "w3-center">Final Player Rank</th>
               </tr>
-            {% endfor %}    
-          </table><br>
+              {% for p in roster_players[year].values() %}
+                <tr>
+                  <td class = "w3-center"><b>{{p['slot']}}</b></td>
+                  <td class = "w3-center"><b>{{p['name']}}</b></td>
+                  <td class = "w3-center"><b>{{p['team']}}</b></td>
+                  <td class = "w3-center"><b>{{p['rank']}}</b></td>
+                </tr>
+              {% endfor %}    
+            </table><br>
+          </div>
         {% endfor %}
       </div>
     </div>

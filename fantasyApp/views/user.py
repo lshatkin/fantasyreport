@@ -36,8 +36,25 @@ def get_historical_rosters(context, teamId):
     query_rosters = "select * from historicalRosters where teamId = %d" % teamId
     rosters = pd.DataFrame.from_dict(query_db(query_rosters))
     rosters = rosters.sort_values(by = ['year'], ascending = False)
-    roster_players = rosters.iloc[:, 2:].set_index(rosters['year'])
-    context['roster_players'] = roster_players.T
+    roster_players = rosters.iloc[:, 2:].set_index(rosters['year']).T
+    context['roster_players'] = {}
+    for year in roster_players.columns:
+        df = pd.DataFrame(columns = ['name','slot','team','rank'])
+        row_count = 0
+        for i in range(0, len(roster_players[year]), 4):
+            df.loc[row_count] = [roster_players[year][i],
+                            roster_players[year][i+1],
+                            roster_players[year][i+2],
+                            roster_players[year][i+3]]
+            row_count += 1
+        new_index = {'QB' : 0, 'RB' : 1, 'WR' : 2, 
+                        'TE' : 3, 'K' : 4, 'D/ST': 5}
+        df['pos_order'] = 6
+        for i in df.index:
+            if df.loc[i,'slot'] in new_index:
+                df.loc[i,'pos_order'] = new_index[df.loc[i, 'slot']]
+        sort = df.sort_values(by = ['pos_order', 'rank'])
+        context['roster_players'][year] = sort.T.to_dict()
     
 
 def get_basic_info(context, teamId):
@@ -55,6 +72,22 @@ def get_basic_info(context, teamId):
     context['currentWins'] = int(currentYear.iloc[0]['wins'])
     context['currentLosses'] = int(currentYear.iloc[0]['losses'])   
     context['teamHistory'] = teamHistoryDf.sort_values(by = ['year'])
+
+    query_years = "select * from years"
+    league_history = pd.DataFrame.from_dict(query_db(query_years))
+    league_history_wins = league_history.loc[:, ['teamId', 'wins']]
+    all_time_wins = league_history_wins.groupby(['teamId']).sum()
+    all_time_wins.sort_values('wins', ascending = False, inplace = True)
+    wins_place = list(all_time_wins.index).index(teamId) + 1
+    if wins_place == 1:
+        context['allTimeWinsPlace'] = "1st"  
+    elif wins_place == 2:
+        context['allTimeWinsPlace'] = "2nd"
+    elif wins_place == 3:
+        context['allTimeWinsPlace'] = "3rd"
+    else:
+        context['allTimeWinsPlace'] = "%dth"%wins_place    
+
 
 
 @fantasyApp.app.route('/u/<team_id>/', methods=['GET'])
