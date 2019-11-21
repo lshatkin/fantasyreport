@@ -32,6 +32,13 @@ def get_best_year(context, teamId):
     context['bestYearFinalStanding'] = int(bestYear.iloc[0]['finalStanding'])
     context['bestYear'] = int(bestYear.iloc[0]['year'])
 
+def get_historical_rosters(context, teamId):
+    query_rosters = "select * from historicalRosters where teamId = %d" % teamId
+    rosters = pd.DataFrame.from_dict(query_db(query_rosters))
+    rosters = rosters.sort_values(by = ['year'], ascending = False)
+    roster_players = rosters.iloc[:, 2:].set_index(rosters['year'])
+    context['roster_players'] = roster_players.T
+    
 
 def get_basic_info(context, teamId):
     query_years = "select * from years where teamId = %d" % teamId
@@ -55,6 +62,7 @@ def show_user(team_id):
     """Display / route."""
     teamId = int(team_id)
     context = {}   
+    get_historical_rosters(context, teamId)
     get_top_bar_info(context)
     get_name(context, teamId)
     get_basic_info(context, teamId)

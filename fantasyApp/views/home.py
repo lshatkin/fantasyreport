@@ -22,7 +22,7 @@ def get_top_bar_info(context):
     context['years'] = getAllYears()
     context['teams'] = getAllTeams()
 
-def getWeeklyExtras(context):
+def get_weekly_extras(context):
     query_weekly = "select * from thisWeekSummary"
     weekly = query_db(query_weekly,one=True)
     week = weekly['week']
@@ -102,7 +102,7 @@ def show_home():
     get_weekly_info(context)
     get_reigning_champ(context)
     get_standings(context)
-    getWeeklyExtras(context)
+    get_weekly_extras(context)
     get_roto_records(context)
     return flask.render_template("home.html", **context)
 

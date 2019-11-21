@@ -2,6 +2,32 @@
 from fantasyApp.model import get_db
 import pandas as pd
 import numpy as np
+ROSTER_SIZE = 16
+
+def storeFinalRosters(team, year):
+    roster = [[p.name, p.eligibleSlots, 
+                p.proTeam, p.posRank] 
+                for p in team.roster]
+    # Flatten the roster
+    roster = [i for s in roster for i in s]
+    # If position rank is a list (is for 2014-2018),
+    # then just make it a zero for SQL purposes.
+    for i in range(3, len(roster), 4):
+        if isinstance(roster[i], list):
+            roster[i] = 0
+    # Get only one position from position rank
+    for i in range(2, len(roster), 4):
+        slots = roster[i]
+        roster[i] = slots[0]
+        s_i = 1
+        while '/' in roster[i]:
+            roster[i] = slots[s_i]
+    while len(roster) < ROSTER_SIZE * 4:
+        roster.append("Empty")
+    params = ['?' for r in roster]
+    command = "insert into historicalRosters values \
+                (%d, %d, %s);" % (team.team_id, year, ','.join(params))
+    get_db().execute(command, roster)
 
 def getYearlyInfo(league, year):
     """ Insert necessary info into years SQL DB. """
@@ -21,6 +47,7 @@ def getYearlyInfo(league, year):
                     p_for, team.final_standing, 
                     r_w, r_l, r_t)
         get_db().execute(command)
+        storeFinalRosters(team, year)
     r_weeks = league.settings.reg_season_count
     p_teams = league.settings.playoff_team_count
     command = "insert into yearSettings values \

@@ -64,17 +64,19 @@ case $1 in
     ;;
 
   "dump")
-    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM teams'
-    echo ""
-    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM years'
-    echo ""
-    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM thisWeekSummary'
-    echo ""
-    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM thisWeekScores'
-    echo ""
+    # sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM teams'
+    # echo ""
+    # sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM years'
+    # echo ""
+    # sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM thisWeekSummary'
+    # echo ""
+    # sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM thisWeekScores'
+    # echo ""
     # sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM players'
+    # echo ""
+    # sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM yearSettings'
     echo ""
-    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM yearSettings'
+    sqlite3 -batch -line var/fantasyApp.sqlite3 'SELECT * FROM historicalRosters'
     ;;
   *)
     usage
