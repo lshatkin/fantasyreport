@@ -1,5 +1,5 @@
 To get started:
-Fake test
+
 1. Set up python virtual environment:
     - python -m venv env
     - source env/bin/activate
