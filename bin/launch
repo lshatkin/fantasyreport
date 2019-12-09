@@ -3,9 +3,14 @@
 set -Eeuo pipefail
 
 if [ ! -f var/fantasyApp.sqlite3 ]
+    ./bin/db resetHard
 then
     ./bin/db create
 fi
+
+git add .
+git commit -m "new weekly data"
+git push
 
 echo "ssh -i fantasy_report.pem ubuntu@ec2-3-15-44-26.us-east-2.compute.amazonaws.com "
 ssh -i fantasy_report.pem ubuntu@ec2-3-15-44-26.us-east-2.compute.amazonaws.com << EOF
