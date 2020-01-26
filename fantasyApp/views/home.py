@@ -76,7 +76,7 @@ def get_weekly_info(context):
 
 
 def get_reigning_champ(context):
-    query_champ = "select * from years where year = %d" % (context['year'] - 1)
+    query_champ = "select * from years where year = %d" % (datetime.datetime.now().year - 1)
     champ = query_db(query_champ)
     for team in champ:
         if team['finalStanding'] == 1:
