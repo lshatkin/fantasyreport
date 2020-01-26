@@ -21,6 +21,7 @@ def fillHistoricalDBs():
 def fillCurrentDBs():
     """Get information from current week."""
     week = currentLeague.current_week - 1
+    week = 12
     getWeeklyInfo(currentLeague, 2019, week)
     addPlayersToDB(currentLeague, week)
 
