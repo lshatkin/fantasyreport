@@ -57,10 +57,12 @@ def get_weekly_info(context):
     context['weekly_info']['low_scorer'] = id_to_name(weekly['lowScorerId'])
     context['weekly_info']["low_score"] = weekly['minScore']
     context['week'] = weekly['week']
-    context['year'] = datetime.datetime.now().year
+    # context['year'] = datetime.datetime.now().year
+    context['year'] = 2019
     query_years = "select * from years where year = %d" % context['year']
     points = query_db(query_years)
     pointsDf = pd.DataFrame.from_dict(points)
+    print(pointsDf)
     max_points = max(pointsDf['pointsFor'])
     min_points = min(pointsDf['pointsFor'])
     id_max = pointsDf.loc[pointsDf['pointsFor'].idxmax()]['teamId']
