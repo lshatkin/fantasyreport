@@ -45,12 +45,23 @@ def getAllTeams():
 
 def initialize_league(year):
     """ Initialize league, needed in most scripts. """
+    # My League
+    # API_INFO = {
+    #     'league_id' : 428926,
+    #     'year' : year,
+    #     'swid' : '{E176D073-7C0F-4936-9728-43E7ABFE1AB7}',
+    #     'espn_s2' : 'AEBrMaWPzGMPhFTsowo%2FITsrbK8AYrSqSZ2Hkb%2BAZgMkMw1uxafrpn3YN2fLyok5Z%2FekNw%2F8yvZ8xtXVIqrAGDD8wQbY1yUi1ygqUrtlB%2FcNpIDc9AgTS2ZHXriAAE69g%2B3zeLdXfhCu9ioMvMYmSp8EHLU0r%2FyJCi3Dj0%2BPIoL8QJGGD4awqXX0uYtltTQ9uEBI9itLcgTph9evvEf%2Bto1yPjN%2FljtBM%2FIuJ4ci3vzqsO8Op2kKbxVb6C3TW%2BLHOW2AtIiI9j9BAqlrgzqrwGTBs5bd%2FAjyDTvQ1Qrxd8uzDw%3D%3D'
+    # }
+
+    # Joe League
     API_INFO = {
-        'league_id' : 428926,
+        'league_id' : 572794,
         'year' : year,
-        'swid' : '{E176D073-7C0F-4936-9728-43E7ABFE1AB7}',
-        'espn_s2' : 'AEBrMaWPzGMPhFTsowo%2FITsrbK8AYrSqSZ2Hkb%2BAZgMkMw1uxafrpn3YN2fLyok5Z%2FekNw%2F8yvZ8xtXVIqrAGDD8wQbY1yUi1ygqUrtlB%2FcNpIDc9AgTS2ZHXriAAE69g%2B3zeLdXfhCu9ioMvMYmSp8EHLU0r%2FyJCi3Dj0%2BPIoL8QJGGD4awqXX0uYtltTQ9uEBI9itLcgTph9evvEf%2Bto1yPjN%2FljtBM%2FIuJ4ci3vzqsO8Op2kKbxVb6C3TW%2BLHOW2AtIiI9j9BAqlrgzqrwGTBs5bd%2FAjyDTvQ1Qrxd8uzDw%3D%3D'
+        'swid' : '{BB93C827-6EA1-4DFC-93BE-27157AEE8DF1}',
+        'espn_s2' : 'AEB7bPQwNA%2BuS4wlhdg8uvtS%2FDcRl634uUWDkP6U16btiNLJdTcvlmF5Y%2ByJ%2BILG9O%2B5JGmzh%2BojJf70tC3dtfqicrRShyfsv5rC32eMRrqa77SoFkYC5X%2BI9CODvfPrDKEkLoqwOe%2BsB0e7%2B%2BBnO0ZZ7G5kDehj6Dd4Xh%2Fw2VAZ37Y5yUDXbMk9VC%2FstoUTV8ujKzcxQwtFwF19gkYtRObW1Vli%2F9i6SVKhkMPa%2B5cmQVTarLav5hjdhqx7xbZh09OooxY8dt%2FGF8Q6KmqFmugD'
     }
+
+    
     return League(API_INFO['league_id'],
                         API_INFO['year'],
                         API_INFO['espn_s2'],
