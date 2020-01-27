@@ -12,7 +12,7 @@ currentLeague = initialize_league(2019)
 
 @manager.command
 def fillHistoricalDBs():
-    for year in tqdm(range(2014, 2020)):
+    for year in tqdm(range(2015, 2020)):
         l = initialize_league(year)
         getYearlyInfo(l, year)
     getTeams(currentLeague)
