@@ -15,6 +15,12 @@ def checkOwnership(owner):
         return 'Sam O\'Donnell'
     return owner
 
+def cleanNames(name):
+    if name == "Pepperoni Nipplez":
+        return "Team Blanchard"
+    elif name == "Best Buddies":
+        return "Team Eli and Jack"
+    return name
 
 def id_to_name(id):
     """ Convert a team id into a team name. """
