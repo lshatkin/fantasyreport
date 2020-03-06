@@ -57,8 +57,8 @@ def initialize_league(year):
     API_INFO = {
         'league_id' : 572794,
         'year' : year,
-        'swid' : '{BB93C827-6EA1-4DFC-93BE-27157AEE8DF1}',
-        'espn_s2' : 'AEB7bPQwNA%2BuS4wlhdg8uvtS%2FDcRl634uUWDkP6U16btiNLJdTcvlmF5Y%2ByJ%2BILG9O%2B5JGmzh%2BojJf70tC3dtfqicrRShyfsv5rC32eMRrqa77SoFkYC5X%2BI9CODvfPrDKEkLoqwOe%2BsB0e7%2B%2BBnO0ZZ7G5kDehj6Dd4Xh%2Fw2VAZ37Y5yUDXbMk9VC%2FstoUTV8ujKzcxQwtFwF19gkYtRObW1Vli%2F9i6SVKhkMPa%2B5cmQVTarLav5hjdhqx7xbZh09OooxY8dt%2FGF8Q6KmqFmugD'
+        'swid' : '{E176D073-7C0F-4936-9728-43E7ABFE1AB7}',
+        'espn_s2' : 'AEB6Uibdckh%2FA2NDAghW770ToONMwOUSF%2FkP8xgB8RCQfF%2FtBbltLmqIO6x6FoudoXNQlD%2Blq2OiEjphuokeLhouSd6tV1AMQbNCBBc4Odueh6YrlimK3fBzA1UShXDc6H5WxEFnf8UxS0wzvvNEt1SZkqbv2%2BohbhNxkQphuWMROsXgPEPoQBvSGaSUcKj%2BvtbRUas7Cperrt7%2FHvYvln7SAHfypKC7zYYdQbKwhtwKAMwwyO7Cqp2dbJ4QK4Q4tNFwjm6FC5a5TY7ktxMbxiA7ovBGkvHdn%2BoF2qdhk2c2M9D%2FTTJQYeDm9r0z%2BJgXimk%3D'
     }
 
     
