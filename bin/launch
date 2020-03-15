@@ -14,8 +14,9 @@ git push
 
 echo "ssh -i fantasyApp2.pem ubuntu@ec2-3-134-91-122.us-east-2.compute.amazonaws.com"
 ssh -i fantasyApp2.pem ubuntu@ec2-3-134-91-122.us-east-2.compute.amazonaws.com << EOF
+    cd fantasyreport
     echo "git pull"
-    git pull origin master
+    git pull
     ls
     echo "source env/bin/activate"
     source env/bin/activate
