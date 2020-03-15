@@ -12,9 +12,8 @@ git add .
 git commit -m "new weekly data"
 git push
 
-echo "ssh -i fantasy_report.pem ubuntu@ec2-3-15-44-26.us-east-2.compute.amazonaws.com "
-ssh -i fantasy_report.pem ubuntu@ec2-3-15-44-26.us-east-2.compute.amazonaws.com << EOF
-    cd fantasyreport/
+echo "ssh -i fantasyApp2.pem ubuntu@ec2-3-134-91-122.us-east-2.compute.amazonaws.com"
+ssh -i fantasyApp2.pem ubuntu@ec2-3-134-91-122.us-east-2.compute.amazonaws.com << EOF
     echo "git pull"
     git pull origin master
     ls
