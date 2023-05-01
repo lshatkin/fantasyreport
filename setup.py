@@ -12,7 +12,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'bs4==0.0.1',
-        'Flask==1.1.1',
+        'Flask==2.3.2',
         'html5validator==0.3.1',
         'pycodestyle==2.5.0',
         'pydocstyle==4.0.1',
